@@ -16,7 +16,7 @@ public class BrowserObject {
     /**
      * Wait until the browser thinks that it has this many tabs
      *
-     * @param expectedCount
+     * @param expectedCount - the number of tabs that you want there to be
      */
     public void waitForTabCount(int expectedCount) {
         new WebDriverWait(

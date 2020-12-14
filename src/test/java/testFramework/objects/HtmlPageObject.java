@@ -49,7 +49,7 @@ public class HtmlPageObject {
     /**
      * Does not read the current one, but waits for it to be what you want it to be
      *
-     * @param expectedTitle
+     * @param expectedTitle - the title that you want it to have
      */
     public void waitForPageTitleToBe(String expectedTitle) {
         new WebDriverWait(
@@ -61,7 +61,7 @@ public class HtmlPageObject {
     /**
      * Does not read the current one, but waits for it to be what you want it to be
      *
-     * @param expectedTitle
+     * @param expectedTitle - the title that you want it to have
      */
     public void waitForPageTitleToContain(String expectedTitle) {
         new WebDriverWait(
