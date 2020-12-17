@@ -93,7 +93,6 @@
             <artifactId>json</artifactId>
             <version>20190722</version>
         </dependency>
-
         <!-- avoid using TestNG to get soft asserts. It will cause headaches with the build succeeding no mater if tests fail -->
 
     </dependencies>

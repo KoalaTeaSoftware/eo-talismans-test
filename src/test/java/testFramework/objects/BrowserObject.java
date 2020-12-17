@@ -11,7 +11,7 @@ import java.util.List;
 
 public class BrowserObject {
     // I can't imagine this being used ina ny other context, but you never know
-    private WebDriver myDriver = Context.defaultDriver;
+    private final WebDriver myDriver = Context.defaultDriver;
 
     /**
      * Wait until the browser thinks that it has this many tabs

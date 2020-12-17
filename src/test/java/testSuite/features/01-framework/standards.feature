@@ -1,5 +1,7 @@
-@standards
+@standards @wip
 Feature: Standards Compliance
+  ToDo: As of 2020-12-14 it has no css
+
   Syntax errors could be a reason for functional failure, so it is worth regarding this as a smoke test as well.
 
   Scenario Outline: CSS Compliance with W3C standards
