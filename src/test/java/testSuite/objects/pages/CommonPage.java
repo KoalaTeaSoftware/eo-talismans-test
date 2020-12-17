@@ -83,7 +83,14 @@ public class CommonPage extends HtmlPageObject {
 
     public boolean logOutButtonIsVisible() { return logOutButton.isDisplayed();}
 
-    public void showLoginForm() { loginButton.click(); }
+    public void showLoginForm() {
+        loginButton.click();
+
+        new WebDriverWait(
+                Context.defaultDriver,
+                Duration.ofSeconds(Context.pageLoadWait))
+                .until(ExpectedConditions.visibilityOf(loginBlock));
+    }
 
     public void setUsername(String username) { logInAddressField.sendKeys(username); }
 
