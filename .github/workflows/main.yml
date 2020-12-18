@@ -41,18 +41,18 @@ jobs:
           echo "-----------------------------"
       - name: run the test
         run: mvn verify
-      - name: Notify test failure by Slack
+      - name: Slack the failure
         if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_TITLE: Talsimans CI suite update - SUT fails tests
           MSG_MINIMAL: true
-      - name: Notify test failure by Slack
+      - name: Notify test success by Slack
         if: ${{ success() }}
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_TITLE: Talsimans CI suite update - SUT passes tests
           MSG_MINIMAL: true
       - name: upload test results to the display web site
