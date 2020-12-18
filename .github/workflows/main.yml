@@ -1,36 +1,69 @@
-# This is a basic workflow to help you get started with Actions
+name: Rerun test and store report
 
-name: CI
-
-# Controls when the action will run. 
+# run because of a checkin, or because we want it to.
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+  push:
+    branches:
+      - master
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# This is a run of the test suite because the test suite has been updated
+# Therefore, the result id for information, and not directly controlling deployment
+# Therefore, do not alter Stage (it may be in some transitional state), and get the result of running it against Live
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  testLive:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: CheckoutTestware
+        uses: actions/checkout@v2
+        with:
+          repository: KoalaTeaSoftware/eo-talismans-test
+      - name: ensure that is running headless
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          cd src/test/configuration
+          sed -i '/^windowSize/ s/^/#/' testFramework.properties
+          sed -i '/^#windowSize=1920,1080/ s/^.*$/windowSize=1920,1080/' testFramework.properties
+          sed -i '/headless=true/ s/^.*$/headless=true/' testFramework.properties
+          cat  testFramework.properties
+          echo "-----------------------------"
+      - name: ensure that it is testing stage
+        run: |
+          cd src/test/configuration
+          sed -i '/^defaultHost/ s/^/#/' systemUnderTest.properties
+          sed -i '/defaultHost=earthoracles/ s/^#//' systemUnderTest.properties
+          cat  systemUnderTest.properties
+          echo "-----------------------------"
+      - name: update the version information in the report
+        run: |
+          cd src/test/configuration
+          sed -i "s/^buildNumber=.*$/buildNumber=CI Suite Update: $(git log -1 --pretty=format:%s)/" reporting.properties
+          cat  reporting.properties
+          echo "-----------------------------"
+      - name: run the test
+        run: mvn verify
+      - name: Notify test failure by Slack
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_TITLE: Talsimans CI suite update - SUT fails tests
+          MSG_MINIMAL: true
+      - name: Notify test failure by Slack
+        if: ${{ success() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_TITLE: Talsimans CI suite update - SUT passes tests
+          MSG_MINIMAL: true
+      - name: upload test results to the display web site
+        if: ${{ always() }}
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ftp.koalateasoftware.com
+          username: ${{ secrets.FTP_USER_REPORT }}
+          password: ${{ secrets.FTP_PWD_REPORT }}
+          local-dir: target/cucumber-html-reports/
+          # the ftp account will write to /home2/koalate1/public_html/kts
+          server-dir: web-site-development/earthoracles/cucumber-html-reports/
+          # some of the files are given names that seem to be to do with tile-stamps, these need to be removed
+          dangerous-clean-slate: true
