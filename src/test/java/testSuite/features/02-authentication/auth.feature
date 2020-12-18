@@ -10,6 +10,8 @@ Feature: Authentication
     And the index stone is hidden
     And the single stone is hidden
     And the login form is hidden
+    And the login button is visible
+    And the logout button is hidden
 
   Scenario: I log in as a guest
     When  I log in with username "a@b.com" and password "qwertyuiop"
@@ -17,6 +19,8 @@ Feature: Authentication
     And the login form is hidden
     And the please log in CTA is hidden
     And the single stone is hidden
+    And the login button is hidden
+    And the logout button is visible
 
   Scenario: Authenticate as a premium user
     When I log in with username "premium@b.com" and password "premium1234"
@@ -24,6 +28,8 @@ Feature: Authentication
     And the login form is hidden
     And the please log in CTA is hidden
     And the single stone is hidden
+    And the login button is hidden
+    And the logout button is visible
 
   Scenario Outline: : Fail to authenticate with syntactically valid credentials
     # for the time being, assume that tidy handling of thing like missing ampersands, or empty fields will be handled
@@ -34,6 +40,9 @@ Feature: Authentication
     And the login failure message eventually mentions "credentials"
     And the index stone is hidden
     And the single stone is hidden
+    And the login button is visible
+    And the logout button is hidden
+
     Examples:
       | username | password   |
       | b@b.com  | qwertyuiop |

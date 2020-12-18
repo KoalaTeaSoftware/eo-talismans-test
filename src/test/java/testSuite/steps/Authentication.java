@@ -85,4 +85,16 @@ public class Authentication {
     public void theLoginFormIsHidden() {
         assertFalse("The login form should be hidden", myPage.loginFormIsVisible());
     }
+
+    @And("the login button is visible")
+    public void theLoginButtonIsVisible() { assertTrue("The log in button should be visible", myPage.logInButtonIsVisible()); }
+
+    @And("the login button is hidden")
+    public void theLoginButtonIsHidden() { assertFalse("The log in button should be hidden", myPage.logInButtonIsVisible()); }
+
+    @And("the logout button is visible")
+    public void theLogoutButtonIsVisible() { assertTrue("the log out button should be hidden", myPage.logOutButtonIsVisible()); }
+
+    @And("the logout button is hidden")
+    public void theLogoutButtonIsHidden() { assertFalse("The log out button should be hidden", myPage.logOutButtonIsVisible()); }
 }

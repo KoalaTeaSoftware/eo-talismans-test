@@ -1,9 +1,10 @@
-@standards @wip
+@standards
 Feature: Standards Compliance
   ToDo: As of 2020-12-14 it has no css
 
   Syntax errors could be a reason for functional failure, so it is worth regarding this as a smoke test as well.
 
+  @wip
   Scenario Outline: CSS Compliance with W3C standards
   This is intended for testing directly created components of the SUT
   For example, Bootstrap 4' css will generate a load of error messages from this tester
@@ -13,3 +14,8 @@ Feature: Standards Compliance
       | file         |
       | /index.css   |
       | /theRest.css |
+
+  Scenario: Compliance with W3C HTML standards
+    # this is a single-page app, so it has only 1 page
+    Given the w3C HTML tester reviews the file ""
+    Then the w3c HTML tester reports compliance
