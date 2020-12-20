@@ -14,7 +14,7 @@ Feature: User Group Related Content
 
   Scenario Outline: As a guest, I try to look at non-premium stones
     When I log in with username "a@b.com" and password "qwertyuiop"
-    And the index stone is visible
+    And the index stone becomes visible
     And I ask to view the stone "<stone name>"
     Then the single stone becomes visible
     And the single stone is the "<stone name>" stone
@@ -26,7 +26,19 @@ Feature: User Group Related Content
 
   Scenario Outline: As a guest, I try to look at premium stones
     When I log in with username "a@b.com" and password "qwertyuiop"
+    And the index stone becomes visible
+    And I ask to view the stone "<stone name>"
+    Then the call to purchase the "<stone name>" becomes visible
     And the index stone is visible
+    And the single stone is hidden
+    And the login form is hidden
+    Examples:
+      | stone name |
+      | revenge    |
+
+  Scenario Outline: As a premium member, I try to look at premium stones
+    When I log in with username "premium@b.com " and password "qwertyuiop"
+    And the index stone becomes visible
     And I ask to view the stone "<stone name>"
     Then the call to purchase the "<stone name>" becomes visible
     And the index stone is visible
@@ -43,9 +55,12 @@ Feature: User Group Related Content
     # To become a useful test, through will have to be put into making sure that the
     # test user is a non-premium user, because once that user has made the purchase he becomes a premium user
     When I log in with username "a@b.com" and password "qwertyuiop"
+    And the index stone becomes visible
     And I ask to view the stone "<stone name>"
     And I purchase premium membership
-    Then the single stone becomes visible
+    Then the call to purchase the becomes hidden
+    And the single stone becomes visible
+    And the single stone is the "<stone name>" stone
     And the index stone is hidden
     And the login form is hidden
     And the logout button is visible

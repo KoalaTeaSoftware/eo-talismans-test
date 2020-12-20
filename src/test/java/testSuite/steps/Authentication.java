@@ -4,7 +4,12 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import testFramework.Context;
 import testSuite.objects.pages.CommonPage;
+
+import java.time.Duration;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -28,16 +33,6 @@ public class Authentication {
         myPage.clickLoginButton();
     }
 
-    @Then("the index stone is visible")
-    public void theIndexStoneIsVisible() {
-        assertTrue("The index stone should be visible", myPage.indexStoneIsVisible());
-    }
-
-    @Then("The index stone becomes visible")
-    public void theIndexStoneBecomesVisible() {
-        myPage.waitForIndexStoneToBeVisible();
-    }
-
     @And("the please log in CTA is hidden")
     public void thePleaseLogInCTAIsHidden() {
         assertFalse("The please login prompt should be hidden", myPage.pliCTAisVisible());
@@ -47,17 +42,6 @@ public class Authentication {
     public void thePleaseLogInCTAIsVisible() {
         Assert.assertTrue("The \"Please Log In\" prompt should be visible", myPage.pliCTAisVisible());
     }
-
-    @And("the index stone is hidden")
-    public void theIndexStoneIsHidden() {
-        Assert.assertFalse("The index stone should be hidden", myPage.indexStoneIsVisible());
-    }
-
-    @And("the single stone is hidden")
-    public void theSingleStoneIsHidden() {
-        Assert.assertFalse("The single stone should be hidden", myPage.singleStoneIsVisible());
-    }
-
 
     @And("the login failure message eventually mentions {string}")
     public void theLoginFailureMessageEventuallyMentions(String expected) {
@@ -82,8 +66,12 @@ public class Authentication {
     }
 
     @And("the login form is hidden")
-    public void theLoginFormIsHidden() {
-        assertFalse("The login form should be hidden", myPage.loginFormIsVisible());
+    public void theLoginFormIsHidden() { assertFalse("The login form should be hidden", myPage.loginFormIsVisible()); }
+
+    @And("the login form becomes hidden")
+    public void theLoginFormBecomesHidden() {
+        new WebDriverWait(Context.defaultDriver, Duration.ofSeconds(Context.pageLoadWait))
+                .until(ExpectedConditions.invisibilityOf(myPage.loginBlock));
     }
 
     @And("the login button is visible")

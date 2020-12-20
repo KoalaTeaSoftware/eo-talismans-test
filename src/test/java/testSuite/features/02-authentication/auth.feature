@@ -15,17 +15,17 @@ Feature: Authentication
 
   Scenario: I log in as a guest
     When  I log in with username "a@b.com" and password "qwertyuiop"
-    Then The index stone becomes visible
-    And the login form is hidden
+    Then the index stone becomes visible
+    And the login form becomes hidden
     And the please log in CTA is hidden
     And the single stone is hidden
     And the login button is hidden
     And the logout button is visible
 
   Scenario: Authenticate as a premium user
-    When I log in with username "premium@b.com" and password "premium1234"
-    Then The index stone becomes visible
-    And the login form is hidden
+    When I log in with username "premium@b.com" and password "qwertyuiop"
+    Then the index stone becomes visible
+    And the login form becomes hidden
     And the please log in CTA is hidden
     And the single stone is hidden
     And the login button is hidden
