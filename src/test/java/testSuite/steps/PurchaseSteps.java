@@ -11,7 +11,7 @@ import testSuite.objects.pages.PremiumMembership;
 import java.time.Duration;
 
 public class PurchaseSteps {
-    PremiumMembership myFacility = new PremiumMembership();
+    final PremiumMembership myFacility = new PremiumMembership();
 
     @Then("the call to purchase the {string} becomes visible")
     public void theCallToPurchaseTheBecomesVisible(String stoneName) {
@@ -23,8 +23,8 @@ public class PurchaseSteps {
         myFacility.triggerPurchase();
     }
 
-    @Then("the call to purchase the becomes hidden")
-    public void theCallToPurchaseTheBecomesHidden() {
+    @Then("the call to purchase becomes hidden")
+    public void theCallToPurchaseBecomesHidden() {
         new WebDriverWait(
                 Context.defaultDriver,
                 Duration.ofSeconds(Context.pageLoadWait)

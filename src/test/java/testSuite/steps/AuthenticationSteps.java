@@ -14,7 +14,7 @@ import java.time.Duration;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class Authentication {
+public class AuthenticationSteps {
     // The SUT is single-page, so the whole thing should always be there (just not visible when not in use)
     CommonPage myPage = new CommonPage();
 
@@ -28,9 +28,9 @@ public class Authentication {
         myPage.showLoginForm();
         theLoginFormIsVisible();
 
-        myPage.setUsername(username);
-        myPage.setPassword(password);
-        myPage.clickLoginButton();
+        myPage.enterUsername(username);
+        myPage.enterPassword(password);
+        myPage.triggerLogin();
     }
 
     @And("the please log in CTA is hidden")

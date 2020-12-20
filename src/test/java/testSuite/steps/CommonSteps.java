@@ -1,9 +1,6 @@
 package testSuite.steps;
 
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
-import org.junit.Assert;
-import org.openqa.selenium.WebElement;
 import testSuite.objects.pages.CommonPage;
 
 /**
@@ -16,16 +13,16 @@ public class CommonSteps {
         new CommonPage();
     }
 
-    @When("I click on the nav link with text {string}")
-    public void iClickOnTheNavLinkWithText(String linkText) {
-        CommonPage commonPage = new CommonPage();
-        WebElement linkElement = commonPage.getNavItem(linkText);
-
-        Assert.assertTrue("The '" + linkText + "' link should be visible and enabled",
-                linkElement.isDisplayed() && linkElement.isEnabled()
-        );
-        linkElement.click();
-    }
+    //    @When("I click on the nav link with text {string}")
+    //    public void iClickOnTheNavLinkWithText(String linkText) {
+    //        CommonPage commonPage = new CommonPage();
+    //        WebElement linkElement = commonPage.getNavItem(linkText);
+    //
+    //        Assert.assertTrue("The '" + linkText + "' link should be visible and enabled",
+    //                linkElement.isDisplayed() && linkElement.isEnabled()
+    //        );
+    //        linkElement.click();
+    //    }
 
 
 }

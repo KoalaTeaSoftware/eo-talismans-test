@@ -41,38 +41,7 @@ public class CommonPage extends HtmlPageObject {
         PageFactory.initElements(Context.defaultDriver, this);
     }
 
-    /**
-     * Not the use of normalize() - t is most likely that the user's view of the link text is a noralised string,
-     * but the IDE may have munged it (to no end effect - except for space chars sent)
-     *
-     * @param displayedText - case sensitive the text that the user sees
-     * @return - the first element in the main nav bar that IS the text given in the param
-     */
-    public WebElement getNavItem(String displayedText) {
-        // byLinkText consistently fails to find the these links, but the following is fast enough,and reliable
-        return mainNav.findElement(By.xpath("//a[normalize-space(text())='" + displayedText + "']"));
-    }
-
     public boolean pliCTAisVisible() { return pleaseLogInBlock.isDisplayed(); }
-
-    public boolean indexStoneIsVisible() { return indexBlock.isDisplayed(); }
-
-    /**
-     * This is of use when you make transitions (log on, or whatever)
-     */
-    public void waitForIndexStoneToBeVisible() {
-        new WebDriverWait(Context.defaultDriver, Duration.ofSeconds(Context.pageLoadWait))
-                .until(ExpectedConditions.visibilityOf(indexBlock));
-    }
-
-    public boolean singleStoneIsVisible() { return singleBlock.isDisplayed(); }
-
-    public void singleStoneBecomesVisible() {
-        new WebDriverWait(
-                Context.defaultDriver,
-                Duration.ofSeconds(Context.pageLoadWait))
-                .until(ExpectedConditions.visibilityOf(singleBlock));
-    }
 
     public boolean loginFormIsVisible() { return loginBlock.isDisplayed();}
 
@@ -91,14 +60,21 @@ public class CommonPage extends HtmlPageObject {
                 .until(ExpectedConditions.visibilityOf(loginBlock));
     }
 
-    public void setUsername(String username) { logInAddressField.sendKeys(username); }
+    public void enterUsername(String username) { logInAddressField.sendKeys(username); }
 
-    public void setPassword(String password) { logIPasswordField.sendKeys(password); }
+    public void enterPassword(String password) { logIPasswordField.sendKeys(password); }
 
-    public void clickLoginButton() { doLoginButton.click(); }
+    public void triggerLogin() { doLoginButton.click(); }
 
     public String getLoginFormMessage() { return loginFormMessage.getText(); }
 
+    /**
+     * Custom wait. text-is-this is a standard, this is is contains
+     *
+     * @param element - the element that you are testing
+     * @param text    - the text that you hope to see IN it
+     * @return - whether the text is IN the text of the elements
+     */
     private ExpectedCondition<Boolean> elementTextContains(WebElement element, String text) {
         return driver -> element.getText().contains(text);
     }
@@ -110,8 +86,4 @@ public class CommonPage extends HtmlPageObject {
                 .until(elementTextContains(loginFormMessage, expected));
     }
 
-    public void selectFromIndexStone(String nameOfStone) {
-        testSuite.objects.pages.IndexStone indexStone = new IndexStone();
-        indexStone.selectStone(nameOfStone);
-    }
 }
