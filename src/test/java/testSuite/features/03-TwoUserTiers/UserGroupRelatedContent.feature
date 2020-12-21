@@ -47,7 +47,7 @@ Feature: User Group Related Content
       | stone name |
       | a_haunting |
 
-  Scenario Outline: As a guest, I purchase a stone (and so become a premium user)
+  Scenario Outline: As a guest, I purchase a premium stone
     # As it is designed at the moment, there are just two tiers, and once a user has
     # become a premium user they are just that
     #
@@ -60,6 +60,30 @@ Feature: User Group Related Content
     When I purchase premium membership
     Then the call to purchase becomes hidden
     And the single stone becomes visible
+    And the single stone is the "<stone name>" stone
+    And the index stone is hidden
+    And the login form is hidden
+    And the logout button is visible
+    Examples:
+      | stone name |
+      | a_haunting |
+
+  Scenario Outline: As a guest, when purchase a premium stone I become a premium user
+    # As it is designed at the moment, there are just two tiers, and once a user has
+    # become a premium user they are just that
+    #
+    # To become a useful test, through will have to be put into making sure that the
+    # test user is a non-premium user, because once that user has made the purchase he becomes a premium user
+    And I log in with username "a@b.com" and password "qwertyuiop"
+    And the index stone becomes visible
+    And I ask to view the stone "<stone name>"
+    And the call to purchase the "<stone name>" becomes visible
+    And I purchase premium membership
+    And the single stone becomes visible
+    When I go back to the index stone
+    And the index stone becomes visible
+    And I ask to view the stone "<stone name>"
+    Then the single stone becomes visible
     And the single stone is the "<stone name>" stone
     And the index stone is hidden
     And the login form is hidden
