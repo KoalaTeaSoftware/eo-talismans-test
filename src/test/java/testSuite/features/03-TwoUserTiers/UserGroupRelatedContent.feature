@@ -1,4 +1,3 @@
-@wip
 Feature: User Group Related Content
   There are two tiers of user: guest, premium. The guest users see fewer stones that the premium users, and can
   become premium users.
