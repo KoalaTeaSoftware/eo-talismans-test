@@ -18,4 +18,6 @@ public class PurchaseSteps {
         myFacility.triggerPurchase();
     }
 
+    @And("I click the already a premium user button")
+    public void iClickTheAlreadyAPremiumUserButton() { myFacility.signifyAlreadyAMember(); }
 }

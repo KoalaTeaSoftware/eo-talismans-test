@@ -24,10 +24,18 @@ public class AuthenticationSteps {
 
     @When("I log in with username {string} and password {string}")
     public void iLogInWithUsernameAndPassword(String username, String password) {
-
+        // NB: this is getting the log in form up before doing anything
         myPage.showLoginForm();
         theLoginFormIsVisible();
 
+        myPage.enterUsername(username);
+        myPage.enterPassword(password);
+        myPage.triggerLogin();
+    }
+
+    @When("I enter username {string} and password {string} and log in")
+    public void iEnterUsernameAndPasswordAndLogIn(String username, String password) {
+        //NB: this is assuming that the log in form is there already
         myPage.enterUsername(username);
         myPage.enterPassword(password);
         myPage.triggerLogin();

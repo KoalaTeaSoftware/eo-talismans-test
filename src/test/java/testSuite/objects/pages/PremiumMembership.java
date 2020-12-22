@@ -15,11 +15,9 @@ import java.time.Duration;
  * It will need to talk to the server and change the user's status
  */
 public class PremiumMembership extends CommonPage {
-    @FindBy(id = "premiumPurchaseBlock")
-    public WebElement premiumPurchaseBlock;
-
-    @FindBy(id = "startPurchase")
-    public WebElement buyButton;
+    @FindBy(id = "premiumPurchaseBlock") public WebElement premiumPurchaseBlock;
+    @FindBy(id = "startPurchase") public WebElement buyButton;
+    @FindBy(id = "alreadyAMember") public WebElement alreadyAMemberButton;
 
     public boolean purchaseFacilityIsVisible() { return premiumPurchaseBlock.isDisplayed(); }
 
@@ -42,4 +40,6 @@ public class PremiumMembership extends CommonPage {
                 Duration.ofSeconds(Context.pageLoadWait)
         ).until(ExpectedConditions.invisibilityOf(premiumPurchaseBlock));
     }
+
+    public void signifyAlreadyAMember() { alreadyAMemberButton.click(); }
 }
