@@ -1,3 +1,4 @@
+@functional
 Feature: User Group Related Content
   There are two tiers of user: guest, owner. The guest users see fewer stones that the premium users
 

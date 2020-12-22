@@ -2,6 +2,11 @@ package testSuite.objects.pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import testFramework.Context;
+
+import java.time.Duration;
 
 /**
  * This is the popup that allows a person to buy the premium set of talismans
@@ -23,5 +28,18 @@ public class PremiumMembership extends CommonPage {
      */
     public void triggerPurchase() {
         buyButton.click();
+    }
+
+    public void purchaseFacilityBecomesVisible() {
+        new WebDriverWait(Context.defaultDriver, Duration.ofSeconds(Context.pageLoadWait))
+                // use the 'presence', i.e. is the element actually in the DOM? - expect it to not be visible in plenty of cases
+                .until(ExpectedConditions.visibilityOf(premiumPurchaseBlock));
+    }
+
+    public void purchaseFacilityBecomesHidden() {
+        new WebDriverWait(
+                Context.defaultDriver,
+                Duration.ofSeconds(Context.pageLoadWait)
+        ).until(ExpectedConditions.invisibilityOf(premiumPurchaseBlock));
     }
 }

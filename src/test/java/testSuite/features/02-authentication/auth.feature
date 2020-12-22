@@ -1,3 +1,4 @@
+@functional
 Feature: Authentication
   There are three classes of user: Guest, Owner, Subscriber.
   An authenticated user will see different UI elements from those seen by an anonymous user.
